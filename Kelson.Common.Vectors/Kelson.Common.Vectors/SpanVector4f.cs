@@ -14,33 +14,8 @@ namespace Kelson.Common.Vectors
 
         public SpanVector4f(in ReadOnlySpan<float> data) => this.data = data;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double MagnitudeSquared() => Dot(this);
+        public static implicit operator Vector4fd(SpanVector4f v) => new Vector4fd(v.X, v.Y, v.Z, v.W);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Magnitude() => Math.Sqrt(Dot(this));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Dot(in SpanVector4f other) => (X * other.X) + (Y * other.Y) + (Z * other.Z) + (W * other.W);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public SpanVector4f Add(in SpanVector4f other)
-            => new SpanVector4f(new Vector4fd(X + other.X, Y + other.Y, Z + other.Z, W + other.W).AsSpan());
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public SpanVector4f Sub(in SpanVector4f other)
-            => new SpanVector4f(new Vector4fd(X - other.X, Y - other.Y, Z - other.Z, W - other.W).AsSpan());
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public SpanVector4f Scale(double scalar)
-            => new SpanVector4f(new Vector4fd(X * scalar, Y * scalar, Z * scalar, W * scalar).AsSpan());
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public SpanVector4f Unit() => Scale(1d / Magnitude());
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Angle(in SpanVector4f other) => Math.Acos(Dot(other) / (Magnitude() * other.Magnitude()));
-
-        public override string ToString() => $"<{ data[0]},{ data[1]},{data[2]},{data[3]}>";
+        public override string ToString() => $"<{data[0]},{data[1]},{data[2]},{data[3]}>";    
     }
 }

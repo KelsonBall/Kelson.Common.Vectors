@@ -4,7 +4,7 @@ namespace Kelson.Common.Vectors
 {
     public static class Extensions
     {
-        [Obsolete("Tested as actually being SLOWER than 1/Math.Sqrt(value) on .net 4.6.1 x64 by around 15%")]
+        [Obsolete("Tested as actually being SLOWER than 1/Math.Sqrt(value) on .net 4.6.2 x64 by around 15%")]
         // https://cs.uwaterloo.ca/~m32rober/rsqrt.pdf
         public static unsafe double FastInverseSqrt(this double value)
         {

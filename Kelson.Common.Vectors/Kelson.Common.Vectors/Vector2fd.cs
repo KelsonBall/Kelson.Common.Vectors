@@ -86,6 +86,14 @@ namespace Kelson.Common.Vectors
                 return new ReadOnlySpan<float>(data, 2);            
         }
 
+        public static Vector2fd operator -(Vector2fd a, Vector2fd b) => a.Sub(b);
+        public static Vector2fd operator -(Vector2fd a) => a.Scale(-1);
+        public static Vector2fd operator +(Vector2fd a, Vector2fd b) => a.Sub(b);
+        public static double operator *(Vector2fd a, Vector2fd b) => a.Dot(b);
+        public static Vector2fd operator *(Vector2fd a, double s) => a.Scale(s);
+        public static Vector2fd operator *(double s, Vector2fd b) => b.Scale(s);
+        public static Vector2fd operator /(Vector2fd a, double s) => a.Scale(1 / s);
+
         public override string ToString() => $"<{x},{y}>";
     }
 }

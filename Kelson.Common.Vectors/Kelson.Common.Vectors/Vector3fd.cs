@@ -101,6 +101,14 @@ namespace Kelson.Common.Vectors
                 return new ReadOnlySpan<float>(data, 3);
         }
 
+        public static Vector3fd operator -(Vector3fd a, Vector3fd b) => a.Sub(b);
+        public static Vector3fd operator -(Vector3fd a) => a.Scale(-1);
+        public static Vector3fd operator +(Vector3fd a, Vector3fd b) => a.Sub(b);
+        public static double operator *(Vector3fd a, Vector3fd b) => a.Dot(b);
+        public static Vector3fd operator *(Vector3fd a, double s) => a.Scale(s);
+        public static Vector3fd operator *(double s, Vector3fd b) => b.Scale(s);
+        public static Vector3fd operator /(Vector3fd a, double s) => a.Scale(1 / s);
+
         public override string ToString() => $"<{x},{y},{z}>";
     }
 }

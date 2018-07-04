@@ -8,6 +8,14 @@
     <Optimize>false</Optimize>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>Full</DebugType>
+    <Authors>Kelson Ball</Authors>
+    <Company>Kelson Software</Company>
+    <Description>Reusable immutable vectors that know all the hip tricks. Designed to work with other vector implementations and</Description>
+    <PackageProjectUrl>https://github.com/KelsonBall/Kelson.Common.Vectors</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/KelsonBall/Kelson.Common.Vectors</RepositoryUrl>
+    <PackageIconUrl>https://avatars2.githubusercontent.com/u/7193540</PackageIconUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageTags>vectors</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
