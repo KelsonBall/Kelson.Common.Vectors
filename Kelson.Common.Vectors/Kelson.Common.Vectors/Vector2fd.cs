@@ -4,13 +4,16 @@ using System.Runtime.InteropServices;
 
 namespace Kelson.Common.Vectors
 {
+    [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct Vector2fd : IVector<Vector2fd>
+    public readonly partial struct Vector2fd : IVector<Vector2fd>
     {
-        public readonly double x;
+        //[FieldOffset(0)]
+        public readonly float x;
         public double X => x;
 
-        public readonly double y;
+        //[FieldOffset(4)]
+        public readonly float y;
         public double Y => y;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -47,13 +50,7 @@ namespace Kelson.Common.Vectors
         public double AngularMagnitude(in Vector2fd other) => Math.Acos(Dot(other) / (Magnitude() * other.Magnitude()));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Angle(in Vector2fd other)
-        {
-            if (Dot(new Vector2fd(other.Y, other.X)) > 0)
-                return AngularMagnitude(other);
-            else
-                return -AngularMagnitude(other);
-        }
+        public double Angle(in Vector2fd other) => Math.Atan2(other.Y, other.X) - Math.Atan2(Y, X);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Vector2fd(in (double x, double y) t) => new Vector2fd(t.x, t.y);
@@ -84,9 +81,9 @@ namespace Kelson.Common.Vectors
         }
 
         public unsafe ReadOnlySpan<float> AsSpan()
-        {
-            fixed (void* data = &this)
-                return new ReadOnlySpan<float>(data, 2);
+        {            
+            fixed (Vector2fd* data = &this)            
+                return new ReadOnlySpan<float>(data, 2);            
         }
 
         public override string ToString() => $"<{x},{y}>";

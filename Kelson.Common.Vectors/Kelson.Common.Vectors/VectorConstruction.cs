@@ -1,9 +1,17 @@
-﻿namespace Kelson.Common.Vectors
+﻿using System;
+
+namespace Kelson.Common.Vectors
 {
+    public readonly partial struct Vector2fd
+    {
+        public static Vector2fd FromPolar(double theta, double radius)
+            => new Vector2fd(Math.Cos(theta) * radius, Math.Sin(theta) * radius);
+    }
+
     public readonly partial struct Vector3fd
     {
         public Vector3fd(in Vector2fd xy, double z) : this(xy.X, xy.Y, z) { }
-        public Vector3fd(double x, in Vector2fd yz) : this(x, yz.X, yz.Y) { }
+        public Vector3fd(double x, in Vector2fd yz) : this(x, yz.X, yz.Y) { }        
     }
 
     public readonly partial struct Vector4fd

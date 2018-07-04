@@ -7,12 +7,15 @@ namespace Kelson.Common.Vectors
     [StructLayout(LayoutKind.Sequential)]
     public readonly partial struct Vector3fd : IVector<Vector3fd>
     {
+        //[FieldOffset(0)]
         private readonly float x;
         public double X => x;
 
+        //[FieldOffset(4)]
         private readonly float y;
         public double Y => y;
 
+        //[FieldOffset(8)]
         private readonly float z;
         public double Z => z;
 
@@ -62,10 +65,7 @@ namespace Kelson.Common.Vectors
                 return AngularMagnitude(other);
             else
                 return -AngularMagnitude(other);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Angle(in Vector3fd other) => Angle(other, Cross(other).Unit());
+        }        
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Vector3fd(in (double x, double y, double z) t) => new Vector3fd(t.x, t.y, t.z);
@@ -97,7 +97,7 @@ namespace Kelson.Common.Vectors
 
         public unsafe ReadOnlySpan<float> AsSpan()
         {
-            fixed (void* data = &this)
+            fixed (Vector3fd* data = &this)
                 return new ReadOnlySpan<float>(data, 3);
         }
 

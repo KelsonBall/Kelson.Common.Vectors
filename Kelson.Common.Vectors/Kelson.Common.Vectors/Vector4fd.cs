@@ -7,15 +7,19 @@ namespace Kelson.Common.Vectors
     [StructLayout(LayoutKind.Sequential)]
     public readonly partial struct Vector4fd : IVector<Vector4fd>
     {
+        //[FieldOffset(0)]
         private readonly float x;
         public double X => x;
 
+        //[FieldOffset(4)]
         private readonly float y;
         public double Y => y;
 
+        //[FieldOffset(8)]
         private readonly float z;
         public double Z => z;
 
+        //[FieldOffset(12)]
         private readonly float w;
         public double W => w;
 
@@ -65,7 +69,7 @@ namespace Kelson.Common.Vectors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector4fd(double[] t)
         {
-            if (t.Length != 3)
+            if (t.Length != 4)
                 throw new InvalidOperationException($"Array length must be 4 to cast to {nameof(Vector4fd)}");
             return new Vector4fd(t[0], t[1], t[2], t[3]);
         }
@@ -73,14 +77,14 @@ namespace Kelson.Common.Vectors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector4fd(float[] t)
         {
-            if (t.Length != 3)
+            if (t.Length != 4)
                 throw new InvalidOperationException($"Array length must be 4 to cast to {nameof(Vector4fd)}");
             return new Vector4fd(t[0], t[1], t[2], t[3]);
         }
 
         public unsafe ReadOnlySpan<float> AsSpan()
         {
-            fixed (void* data = &this)
+            fixed (Vector4fd* data = &this)
                 return new ReadOnlySpan<float>(data, 4);
         }
 
