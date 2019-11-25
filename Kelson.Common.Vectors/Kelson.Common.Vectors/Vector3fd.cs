@@ -68,16 +68,16 @@ namespace Kelson.Common.Vectors
         }        
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator Vector3fd(in (double x, double y, double z) t) => new Vector3fd(t.x, t.y, t.z);
+        public static explicit operator Vector3fd(in (double x, double y, double z) t) => new Vector3fd(t.x, t.y, t.z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator Vector3fd(in (float x, float y, float z) t) => new Vector3fd(t.x, t.y, t.z);
+        public static explicit operator Vector3fd(in (float x, float y, float z) t) => new Vector3fd(t.x, t.y, t.z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator Vector3fd(Tuple<double, double, double> t) => new Vector3fd(t.Item1, t.Item2, t.Item3);
+        public static explicit operator Vector3fd(Tuple<double, double, double> t) => new Vector3fd(t.Item1, t.Item2, t.Item3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator Vector3fd(Tuple<float, float, float> t) => new Vector3fd(t.Item1, t.Item2, t.Item3);
+        public static explicit operator Vector3fd(Tuple<float, float, float> t) => new Vector3fd(t.Item1, t.Item2, t.Item3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector3fd(double[] t)
@@ -95,11 +95,7 @@ namespace Kelson.Common.Vectors
             return new Vector3fd(t[0], t[1], t[2]);
         }
 
-        public unsafe ReadOnlySpan<float> AsSpan()
-        {
-            fixed (Vector3fd* data = &this)
-                return new ReadOnlySpan<float>(data, 3);
-        }
+        public static explicit operator RefVector3f(Vector3fd v) => new RefVector3f(v.X, v.Y, v.Z);
 
         public static Vector3fd operator -(Vector3fd a, Vector3fd b) => a.Sub(b);
         public static Vector3fd operator -(Vector3fd a) => a.Scale(-1);
@@ -109,6 +105,15 @@ namespace Kelson.Common.Vectors
         public static Vector3fd operator *(double s, Vector3fd b) => b.Scale(s);
         public static Vector3fd operator /(Vector3fd a, double s) => a.Scale(1 / s);
 
-        public override string ToString() => $"<{x},{y},{z}>";
+        public static bool operator ==(Vector3fd a, Vector3fd b) => a.X == b.X && a.Y == b.Y && a.Z == b.Z;
+        public static bool operator !=(Vector3fd a, Vector3fd b) => a.X != b.X || a.Y != b.Y || a.Z != b.Z;
+
+        public unsafe ReadOnlySpan<float> AsSpan()
+        {
+            fixed (Vector3fd* data = &this)
+                return new ReadOnlySpan<float>(data, 3);
+        }        
+
+        public override string ToString() => $"<{x.ToString("#0.##")},{y.ToString("#0.##")},{z.ToString("#0.##")}>";
     }
 }

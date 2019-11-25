@@ -58,13 +58,13 @@ namespace Kelson.Common.Vectors
         public double AngularMagnitude(in Vector4fd other) => Math.Acos(Dot(other) / (Magnitude() * other.Magnitude()) );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator Vector4fd(in (float x, float y, float z, float w) t) => new Vector4fd(t.x, t.y, t.z, t.w);
+        public static explicit operator Vector4fd(in (float x, float y, float z, float w) t) => new Vector4fd(t.x, t.y, t.z, t.w);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator Vector4fd(Tuple<double, double, double, double> t) => new Vector4fd(t.Item1, t.Item2, t.Item3, t.Item4);
+        public static explicit operator Vector4fd(Tuple<double, double, double, double> t) => new Vector4fd(t.Item1, t.Item2, t.Item3, t.Item4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator Vector4fd(Tuple<float, float, float, float> t) => new Vector4fd(t.Item1, t.Item2, t.Item3, t.Item4);
+        public static explicit operator Vector4fd(Tuple<float, float, float, float> t) => new Vector4fd(t.Item1, t.Item2, t.Item3, t.Item4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector4fd(double[] t)
@@ -82,11 +82,7 @@ namespace Kelson.Common.Vectors
             return new Vector4fd(t[0], t[1], t[2], t[3]);
         }
 
-        public unsafe ReadOnlySpan<float> AsSpan()
-        {
-            fixed (Vector4fd* data = &this)
-                return new ReadOnlySpan<float>(data, 4);
-        }
+        public static implicit operator RefVector4f(Vector4fd v) => new RefVector4f(v.X, v.Y, v.Z, v.W);
 
         public static Vector4fd operator -(Vector4fd a, Vector4fd b) => a.Sub(b);
         public static Vector4fd operator -(Vector4fd a) => a.Scale(-1);
@@ -95,6 +91,14 @@ namespace Kelson.Common.Vectors
         public static Vector4fd operator *(Vector4fd a, double s) => a.Scale(s);
         public static Vector4fd operator *(double s, Vector4fd b) => b.Scale(s);
         public static Vector4fd operator /(Vector4fd a, double s) => a.Scale(1 / s);
+        public static bool operator ==(Vector4fd a, Vector4fd b) => a.X == b.X && a.Y == b.Y && a.Z == b.Z && a.W == b.W;
+        public static bool operator !=(Vector4fd a, Vector4fd b) => a.X != b.X || a.Y != b.Y || a.Z != b.Z || a.W != b.W;
+
+        public unsafe ReadOnlySpan<float> AsSpan()
+        {
+            fixed (Vector4fd* data = &this)
+                return new ReadOnlySpan<float>(data, 4);
+        }
 
         public override string ToString() => $"<{x},{y},{z},{w}>";
     }

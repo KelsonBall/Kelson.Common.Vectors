@@ -3,8 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Kelson.Common.Vectors
-{
-    [Serializable]
+{    
     [StructLayout(LayoutKind.Sequential)]
     public readonly partial struct Vector2fd : IVector<Vector2fd>
     {
@@ -53,16 +52,16 @@ namespace Kelson.Common.Vectors
         public double Angle(in Vector2fd other) => Math.Atan2(other.Y, other.X) - Math.Atan2(Y, X);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator Vector2fd(in (double x, double y) t) => new Vector2fd(t.x, t.y);
+        public static explicit operator Vector2fd(in (double x, double y) t) => new Vector2fd(t.x, t.y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator Vector2fd(in (float x, float y) t) => new Vector2fd(t.x, t.y);
+        public static explicit operator Vector2fd(in (float x, float y) t) => new Vector2fd(t.x, t.y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator Vector2fd(Tuple<double, double> t) => new Vector2fd(t.Item1, t.Item2);
+        public static explicit operator Vector2fd(Tuple<double, double> t) => new Vector2fd(t.Item1, t.Item2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator Vector2fd(Tuple<float, float> t) => new Vector2fd(t.Item1, t.Item2);
+        public static explicit operator Vector2fd(Tuple<float, float> t) => new Vector2fd(t.Item1, t.Item2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector2fd(double[] t)
@@ -80,11 +79,7 @@ namespace Kelson.Common.Vectors
             return new Vector2fd(t[0], t[1]);
         }
 
-        public unsafe ReadOnlySpan<float> AsSpan()
-        {            
-            fixed (Vector2fd* data = &this)            
-                return new ReadOnlySpan<float>(data, 2);            
-        }
+        public static explicit operator RefVector2f(Vector2fd v) => new RefVector2f(v.X, v.Y);
 
         public static Vector2fd operator -(Vector2fd a, Vector2fd b) => a.Sub(b);
         public static Vector2fd operator -(Vector2fd a) => a.Scale(-1);
@@ -93,6 +88,14 @@ namespace Kelson.Common.Vectors
         public static Vector2fd operator *(Vector2fd a, double s) => a.Scale(s);
         public static Vector2fd operator *(double s, Vector2fd b) => b.Scale(s);
         public static Vector2fd operator /(Vector2fd a, double s) => a.Scale(1 / s);
+        public static bool operator ==(Vector2fd a, Vector2fd b) => a.X == b.X && a.Y == b.Y;
+        public static bool operator !=(Vector2fd a, Vector2fd b) => a.X != b.X || a.Y != b.Y;
+
+        public unsafe ReadOnlySpan<float> AsSpan()
+        {
+            fixed (Vector2fd* data = &this)
+                return new ReadOnlySpan<float>(data, 2);
+        }
 
         public override string ToString() => $"<{x},{y}>";
     }
